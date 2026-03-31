@@ -1,0 +1,12 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Environment variables
+.env
+
+# Output files (generated results)
+outputs/
+
+# macOS
+.DS_Store
