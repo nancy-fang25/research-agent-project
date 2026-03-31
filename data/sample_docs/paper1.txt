@@ -1,0 +1,13 @@
+Title: Retrieval-Augmented Generation
+
+Abstract:
+This paper introduces Retrieval-Augmented Generation (RAG), a method that combines retrieval systems with large language models to improve factual accuracy.
+
+Method:
+The system first retrieves relevant documents from a knowledge base using vector similarity search. The retrieved content is then used as additional context for the language model during generation.
+
+Results:
+RAG improves factual correctness and reduces hallucination compared to standard language models.
+
+Conclusion:
+Retrieval augmentation is an effective approach for improving reliability in generative AI systems.

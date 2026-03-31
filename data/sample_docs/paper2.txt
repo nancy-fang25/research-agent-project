@@ -1,0 +1,13 @@
+Title: Fine-Tuning Language Models
+
+Abstract:
+This paper explores fine-tuning techniques for adapting large language models to domain-specific tasks.
+
+Method:
+A pretrained model is further trained on task-specific data. Techniques such as parameter-efficient fine-tuning (PEFT) reduce computational cost.
+
+Results:
+Fine-tuned models outperform base models on specialized tasks such as medical QA and legal document analysis.
+
+Conclusion:
+Fine-tuning is a powerful method for improving model performance in specific domains.

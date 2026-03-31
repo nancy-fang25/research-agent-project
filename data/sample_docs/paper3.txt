@@ -1,0 +1,13 @@
+Title: Autonomous AI Agents
+
+Abstract:
+This paper discusses the design of autonomous AI agents that can perform multi-step reasoning and tool usage.
+
+Method:
+Agents are equipped with planning modules, memory systems, and tool-calling capabilities. They can decompose tasks and execute them step by step.
+
+Results:
+Agent-based systems perform better than single-pass models in complex reasoning tasks.
+
+Conclusion:
+AI agents represent a promising direction for building intelligent systems that can handle real-world workflows.
