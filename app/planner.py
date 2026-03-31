@@ -157,3 +157,4 @@ User query: {query}
 
     except Exception:
         return create_fallback_plan(query)
+    
