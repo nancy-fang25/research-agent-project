@@ -22,25 +22,21 @@ def main():
     plan = create_plan(query)
     state = run_agent(query=query, docs=docs, plan=plan)
 
-    result_json = {
-        "query": state["query"],
-        "plan": state["plan"],
-        "search_results": state["search_results"],
-        "summaries": state["summaries"],
-        "comparison": state["comparison"],
-        "errors": state["errors"],
-    }
-
     with open(output_folder / "report.md", "w", encoding="utf-8") as f:
-        f.write(state["report"] or "")
+        f.write(state.report or "")
 
     with open(output_folder / "result.json", "w", encoding="utf-8") as f:
-        json.dump(result_json, f, indent=2)
+        json.dump(state.to_dict(), f, indent=2)
 
     print("Run completed.")
-    print(f"Plan: {plan}")
+    print(f"Plan: {state.plan}")
     print("Saved report to outputs/report.md")
     print("Saved result to outputs/result.json")
+
+    if state.errors:
+        print("Errors:")
+        for err in state.errors:
+            print(f"- Step: {err.step} | Message: {err.message}")
 
 
 if __name__ == "__main__":
