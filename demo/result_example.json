@@ -1,0 +1,59 @@
+{
+  "query": "Compare retrieval and fine-tuning methods in these technical documents",
+  "plan": [
+    "search",
+    "summarize",
+    "compare",
+    "report"
+  ],
+  "search_results": [
+    {
+      "doc_name": "paper2.txt",
+      "score": 4,
+      "matched_terms": [
+        "fine-tuning"
+      ]
+    },
+    {
+      "doc_name": "paper1.txt",
+      "score": 2,
+      "matched_terms": [
+        "retrieval"
+      ]
+    }
+  ],
+  "summaries": {
+    "paper3.txt": {
+      "title": "Autonomous AI Agents",
+      "abstract_summary": "This paper discusses the design of autonomous AI agents that can perform multi-step reasoning and tool usage.",
+      "method_summary": "Agents are equipped with planning modules, memory systems, and tool-calling capabilities. They can decompose tasks and execute them step by step.",
+      "results_summary": "Agent-based systems perform better than single-pass models in complex reasoning tasks.",
+      "conclusion_summary": "AI agents represent a promising direction for building intelligent systems that can handle real-world workflows."
+    },
+    "paper2.txt": {
+      "title": "Fine-Tuning Language Models",
+      "abstract_summary": "This paper explores fine-tuning techniques for adapting large language models to domain-specific tasks.",
+      "method_summary": "A pretrained model is further trained on task-specific data. Techniques such as parameter-efficient fine-tuning (PEFT) reduce computational cost.",
+      "results_summary": "Fine-tuned models outperform base models on specialized tasks such as medical QA and legal document analysis.",
+      "conclusion_summary": "Fine-tuning is a powerful method for improving model performance in specific domains."
+    },
+    "paper1.txt": {
+      "title": "Retrieval-Augmented Generation",
+      "abstract_summary": "This paper introduces Retrieval-Augmented Generation (RAG), a method that combines retrieval systems with large language models to improve factual accuracy.",
+      "method_summary": "The system first retrieves relevant documents from a knowledge base using vector similarity search. The retrieved content is then used as additional context for the language model during generation.",
+      "results_summary": "RAG improves factual correctness and reduces hallucination compared to standard language models.",
+      "conclusion_summary": "Retrieval augmentation is an effective approach for improving reliability in generative AI systems."
+    }
+  },
+  "comparison": {
+    "doc1_title": "Fine-Tuning Language Models",
+    "doc2_title": "Retrieval-Augmented Generation",
+    "abstract_comparison": "Doc 1 focuses on: This paper explores fine-tuning techniques for adapting large language models to domain-specific tasks. Doc 2 focuses on: This paper introduces Retrieval-Augmented Generation (RAG), a method that combines retrieval systems with large language models to improve factual accuracy.",
+    "method_comparison": "Doc 1 method: A pretrained model is further trained on task-specific data. Techniques such as parameter-efficient fine-tuning (PEFT) reduce computational cost. Doc 2 method: The system first retrieves relevant documents from a knowledge base using vector similarity search. The retrieved content is then used as additional context for the language model during generation.",
+    "results_comparison": "Doc 1 results: Fine-tuned models outperform base models on specialized tasks such as medical QA and legal document analysis. Doc 2 results: RAG improves factual correctness and reduces hallucination compared to standard language models.",
+    "conclusion_comparison": "Doc 1 concludes: Fine-tuning is a powerful method for improving model performance in specific domains. Doc 2 concludes: Retrieval augmentation is an effective approach for improving reliability in generative AI systems."
+  },
+  "report": "# Technical Document Analysis Report\n\n## User Query\nCompare retrieval and fine-tuning methods in these technical documents\n\n## Search Results\n- **paper2.txt** | score=4 | matched_terms=fine-tuning\n- **paper1.txt** | score=2 | matched_terms=retrieval\n\n## Document Summaries\n### paper2.txt\n- **Title:** Fine-Tuning Language Models\n- **Abstract:** This paper explores fine-tuning techniques for adapting large language models to domain-specific tasks.\n- **Method:** A pretrained model is further trained on task-specific data. Techniques such as parameter-efficient fine-tuning (PEFT) reduce computational cost.\n- **Results:** Fine-tuned models outperform base models on specialized tasks such as medical QA and legal document analysis.\n- **Conclusion:** Fine-tuning is a powerful method for improving model performance in specific domains.\n\n### paper1.txt\n- **Title:** Retrieval-Augmented Generation\n- **Abstract:** This paper introduces Retrieval-Augmented Generation (RAG), a method that combines retrieval systems with large language models to improve factual accuracy.\n- **Method:** The system first retrieves relevant documents from a knowledge base using vector similarity search. The retrieved content is then used as additional context for the language model during generation.\n- **Results:** RAG improves factual correctness and reduces hallucination compared to standard language models.\n- **Conclusion:** Retrieval augmentation is an effective approach for improving reliability in generative AI systems.\n\n### paper3.txt\n- **Title:** Autonomous AI Agents\n- **Abstract:** This paper discusses the design of autonomous AI agents that can perform multi-step reasoning and tool usage.\n- **Method:** Agents are equipped with planning modules, memory systems, and tool-calling capabilities. They can decompose tasks and execute them step by step.\n- **Results:** Agent-based systems perform better than single-pass models in complex reasoning tasks.\n- **Conclusion:** AI agents represent a promising direction for building intelligent systems that can handle real-world workflows.\n\n## Document Comparison\n- **Doc 1:** Fine-Tuning Language Models\n- **Doc 2:** Retrieval-Augmented Generation\n- **Abstract:** Doc 1 focuses on: This paper explores fine-tuning techniques for adapting large language models to domain-specific tasks. Doc 2 focuses on: This paper introduces Retrieval-Augmented Generation (RAG), a method that combines retrieval systems with large language models to improve factual accuracy.\n- **Method:** Doc 1 method: A pretrained model is further trained on task-specific data. Techniques such as parameter-efficient fine-tuning (PEFT) reduce computational cost. Doc 2 method: The system first retrieves relevant documents from a knowledge base using vector similarity search. The retrieved content is then used as additional context for the language model during generation.\n- **Results:** Doc 1 results: Fine-tuned models outperform base models on specialized tasks such as medical QA and legal document analysis. Doc 2 results: RAG improves factual correctness and reduces hallucination compared to standard language models.\n- **Conclusion:** Doc 1 concludes: Fine-tuning is a powerful method for improving model performance in specific domains. Doc 2 concludes: Retrieval augmentation is an effective approach for improving reliability in generative AI systems.\n",
+  "errors": [],
+  "planner_rationale": "Comparison intent detected, so include compare step."
+}

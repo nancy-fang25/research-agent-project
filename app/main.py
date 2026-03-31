@@ -19,17 +19,21 @@ def main():
         print(f"Error loading documents: {e}")
         return
 
-    plan = create_plan(query)
-    state = run_agent(query=query, docs=docs, plan=plan)
+    planner_output = create_plan(query)
+    state = run_agent(query=query, docs=docs, plan=planner_output.plan)
+
+    result = state.to_dict()
+    result["planner_rationale"] = planner_output.rationale
 
     with open(output_folder / "report.md", "w", encoding="utf-8") as f:
         f.write(state.report or "")
 
     with open(output_folder / "result.json", "w", encoding="utf-8") as f:
-        json.dump(state.to_dict(), f, indent=2)
+        json.dump(result, f, indent=2)
 
     print("Run completed.")
-    print(f"Plan: {state.plan}")
+    print(f"Plan: {planner_output.plan}")
+    print(f"Planner rationale: {planner_output.rationale}")
     print("Saved report to outputs/report.md")
     print("Saved result to outputs/result.json")
 

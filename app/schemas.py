@@ -35,6 +35,12 @@ class ErrorLog:
 
 
 @dataclass
+class PlannerOutput:
+    plan: List[str]
+    rationale: str
+
+
+@dataclass
 class AgentState:
     query: str
     plan: List[str]
