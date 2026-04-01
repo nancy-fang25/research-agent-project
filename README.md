@@ -70,14 +70,29 @@ Example trace:
 
 ---
 
-### CLI-based Interaction
+### CLI and Interactive Input
 
-Supports dynamic user queries via command line:
+The agent supports both CLI-based input and interactive input.
+
+#### Option 1: CLI input (recommended)
+
 ```bash
 python app/main.py --query "Compare retrieval and fine-tuning methods"
 ```
 
-Optional parameters:
+#### Option 2: Interactive input
+```bash
+python app/main.py
+```
+Then enter your query when prompted:
+```text
+Enter your query: Compare retrieval and fine-tuning methods
+```
+This allows the agent to be used both in scripted workflows and interactive scenarios.
+
+---
+
+You can also specify optional parameters:
 ```bash
 --model llama3
 --log-level DEBUG
@@ -145,10 +160,19 @@ pip install -r requirements.txt
 
 ## Usage
 
-### Basic example
+### Basic usage (CLI)
+
 ```bash
 python app/main.py --query "Compare retrieval and fine-tuning methods in these technical documents"
 ```
+
+---
+
+### Interactive mode
+```bash
+python app/main.py
+```
+Then enter your query when prompted.
 
 ---
 
