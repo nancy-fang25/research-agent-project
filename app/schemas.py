@@ -41,6 +41,13 @@ class PlannerOutput:
 
 
 @dataclass
+class TraceEntry:
+    step: str
+    status: str
+    detail: str
+
+
+@dataclass
 class AgentState:
     query: str
     plan: List[str]
@@ -49,7 +56,7 @@ class AgentState:
     comparison: Optional[Comparison]
     report: Optional[str]
     errors: List[ErrorLog]
+    execution_trace: List[TraceEntry]
 
     def to_dict(self):
         return asdict(self)
-    

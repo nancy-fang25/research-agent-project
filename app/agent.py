@@ -1,5 +1,10 @@
+import logging
+
 from tools import search_docs, summarize_docs, compare_docs, generate_report
-from schemas import AgentState, SearchResult, Summary, Comparison, ErrorLog
+from schemas import AgentState, SearchResult, Summary, Comparison, ErrorLog, TraceEntry
+
+
+logger = logging.getLogger(__name__)
 
 
 def run_agent(query: str, docs: dict, plan: list[str]) -> AgentState:
@@ -17,20 +22,35 @@ def run_agent(query: str, docs: dict, plan: list[str]) -> AgentState:
         comparison=None,
         report=None,
         errors=[],
+        execution_trace=[],
     )
+
+    logger.info("[Agent] Starting execution")
+    logger.info("[Agent] Plan: %s", plan)
 
     for step in plan:
         try:
+            logger.info("[Agent] Running step: %s", step)
+
             if step == "search":
                 results = search_docs(query, docs)
                 state.search_results = [SearchResult(**r) for r in results]
 
+                detail = f"Found {len(state.search_results)} relevant document(s)."
+                state.execution_trace.append(
+                    TraceEntry(step="search", status="success", detail=detail)
+                )
+                logger.info("[Search] %s", detail)
+
             elif step == "summarize":
                 summaries = {}
+                success_count = 0
+
                 for doc_name, doc_text in docs.items():
                     try:
                         s = summarize_docs(doc_text)
                         summaries[doc_name] = Summary(**s)
+                        success_count += 1
                     except Exception as e:
                         summaries[doc_name] = Summary(
                             title=doc_name,
@@ -39,7 +59,15 @@ def run_agent(query: str, docs: dict, plan: list[str]) -> AgentState:
                             results_summary="N/A",
                             conclusion_summary="N/A",
                         )
+                        logger.warning("[Summarize] Failed on %s: %s", doc_name, e)
+
                 state.summaries = summaries
+
+                detail = f"Generated summaries for {success_count}/{len(docs)} document(s)."
+                state.execution_trace.append(
+                    TraceEntry(step="summarize", status="success", detail=detail)
+                )
+                logger.info("[Summarize] %s", detail)
 
             elif step == "compare":
                 if len(state.search_results) >= 2:
@@ -48,6 +76,18 @@ def run_agent(query: str, docs: dict, plan: list[str]) -> AgentState:
 
                     comp = compare_docs(docs[doc1_name], docs[doc2_name])
                     state.comparison = Comparison(**comp)
+
+                    detail = f"Compared top 2 documents: {doc1_name} vs {doc2_name}."
+                    state.execution_trace.append(
+                        TraceEntry(step="compare", status="success", detail=detail)
+                    )
+                    logger.info("[Compare] %s", detail)
+                else:
+                    detail = "Skipped comparison because fewer than 2 relevant documents were found."
+                    state.execution_trace.append(
+                        TraceEntry(step="compare", status="skipped", detail=detail)
+                    )
+                    logger.info("[Compare] %s", detail)
 
             elif step == "report":
                 search_results_for_report = [
@@ -88,10 +128,25 @@ def run_agent(query: str, docs: dict, plan: list[str]) -> AgentState:
                     comparison=comparison_for_report,
                 )
 
-        except Exception as e:
-            state.errors.append(ErrorLog(
-                step=step,
-                message=str(e),
-            ))
+                detail = "Generated final markdown report."
+                state.execution_trace.append(
+                    TraceEntry(step="report", status="success", detail=detail)
+                )
+                logger.info("[Report] %s", detail)
 
+            else:
+                detail = f"Unknown step '{step}' was ignored."
+                state.execution_trace.append(
+                    TraceEntry(step=step, status="skipped", detail=detail)
+                )
+                logger.warning("[Agent] %s", detail)
+
+        except Exception as e:
+            state.errors.append(ErrorLog(step=step, message=str(e)))
+            state.execution_trace.append(
+                TraceEntry(step=step, status="error", detail=str(e))
+            )
+            logger.exception("[Agent] Step failed: %s", step)
+
+    logger.info("[Agent] Execution finished")
     return state
