@@ -1,12 +1,14 @@
 from typing import List, Dict, Optional
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass, asdict, field
 
 
 @dataclass
 class SearchResult:
     doc_name: str
-    score: int
-    matched_terms: List[str]
+    score: float
+    score_type: str
+    retrieval_method: str
+    matched_terms: List[str] = field(default_factory=list)
 
 
 @dataclass

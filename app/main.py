@@ -28,7 +28,7 @@ def parse_args():
         type=str,
         required=False,
         help="User query for document analysis"
-    )
+    )  
     parser.add_argument(
         "--model",
         type=str,
@@ -53,6 +53,13 @@ def parse_args():
         default="INFO",
         help="Logging level: DEBUG, INFO, WARNING, ERROR",
     )
+    parser.add_argument(
+        "--search-method",
+        type=str,
+        default="vector",
+        choices=["vector", "keyword"],
+        help="Retrieval method: vector (default) or keyword",
+    )    
     return parser.parse_args()
 
 
@@ -75,7 +82,7 @@ def main():
     try:
         docs = load_sample_docs(str(data_folder))
     except Exception as e:
-        logger.error("[Main] Error loading documents: %s", e)
+        logger.exception("[Main] Error loading documents: %s", e)
         return
 
     logger.info("[Main] Loaded %d document(s)", len(docs))
@@ -84,7 +91,12 @@ def main():
     logger.info("[Planner] Generated plan: %s", planner_output.plan)
     logger.info("[Planner] Rationale: %s", planner_output.rationale)
 
-    state = run_agent(query=query, docs=docs, plan=planner_output.plan)
+    state = run_agent(
+        query=query,
+        docs=docs,
+        plan=planner_output.plan,
+        search_method=args.search_method,
+    )
 
     result = state.to_dict()
     result["planner_rationale"] = planner_output.rationale

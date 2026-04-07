@@ -7,7 +7,7 @@ from schemas import AgentState, SearchResult, Summary, Comparison, ErrorLog, Tra
 logger = logging.getLogger(__name__)
 
 
-def run_agent(query: str, docs: dict, plan: list[str]) -> AgentState:
+def run_agent(query: str, docs: dict, plan: list[str], search_method: str = "vector") -> AgentState:
     """
     Execute the tool pipeline according to the given plan.
 
@@ -33,7 +33,7 @@ def run_agent(query: str, docs: dict, plan: list[str]) -> AgentState:
             logger.info("[Agent] Running step: %s", step)
 
             if step == "search":
-                results = search_docs(query, docs)
+                results = search_docs(query, docs, method=search_method)
                 state.search_results = [SearchResult(**r) for r in results]
 
                 detail = f"Found {len(state.search_results)} relevant document(s)."
@@ -94,6 +94,8 @@ def run_agent(query: str, docs: dict, plan: list[str]) -> AgentState:
                     {
                         "doc_name": r.doc_name,
                         "score": r.score,
+                        "score_type": r.score_type,
+                        "retrieval_method": r.retrieval_method,
                         "matched_terms": r.matched_terms,
                     }
                     for r in state.search_results

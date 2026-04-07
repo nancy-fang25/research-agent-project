@@ -1,5 +1,9 @@
 import re
+import logging
 from collections import Counter
+from retriever import DocumentRetriever
+
+logger = logging.getLogger(__name__)
 
 STOPWORDS = {
     "the", "a", "an", "and", "or", "in", "on", "of", "to", "for",
@@ -55,7 +59,7 @@ def split_sections(doc_text: str) -> dict:
     return sections
 
 
-def search_docs(query: str, docs: dict) -> list[dict]:
+def search_docs_keyword(query: str, docs: dict) -> list[dict]:
     """
     Search documents by simple keyword overlap, with stopword filtering.
 
@@ -79,12 +83,57 @@ def search_docs(query: str, docs: dict) -> list[dict]:
             results.append({
                 "doc_name": doc_name,
                 "score": score,
+                "score_type": "term_frequency",
+                "retrieval_method": "keyword",
                 "matched_terms": sorted([t for t in query_tokens if t in doc_counter]),
             })
 
     results.sort(key=lambda x: x["score"], reverse=True)
     return results
 
+
+def search_docs_vector(query: str, docs: dict, top_k: int = 3) -> list[dict]:
+    """
+    Semantic search using sentence-transformers + vector similarity.
+
+    Returns:
+        list of dicts, same output shape as keyword search
+    """
+    if top_k <= 0:
+        return []
+    
+    retriever = DocumentRetriever()
+    retriever.build_index(docs)
+    results = retriever.search(query, top_k=top_k)
+
+    return [
+        {
+            "doc_name": r.doc_name,
+            "score": round(r.score, 4),
+            "score_type": "cosine_similarity",
+            "retrieval_method": "semantic",
+        }
+        for r in results
+    ]
+
+
+def search_docs(query: str, docs: dict, method: str = "vector", top_k: int = 3) -> list[dict]:
+    """
+    Unified search entry.
+
+    method:
+        - "vector": semantic retrieval
+        - "keyword": keyword overlap baseline
+    """
+    if method == "keyword":
+        return search_docs_keyword(query, docs)
+
+    try:
+        return search_docs_vector(query, docs, top_k=top_k)
+    except Exception:
+        logger.exception("[Search] Vector retrieval failed, falling back to keyword search")
+        return search_docs_keyword(query, docs)
+    
 
 def summarize_docs(doc_text: str) -> dict:
     """
@@ -148,15 +197,32 @@ def generate_report(
     lines.append("## User Query")
     lines.append(query)
     lines.append("")
+    lines.append("## Retrieval Method")
+    method = search_results[0].get("retrieval_method", "unknown") if search_results else "N/A"
+    if method == "semantic":
+        lines.append("semantic (embedding-based retrieval)")
+    elif method == "keyword":
+        lines.append("keyword (term-frequency baseline)")
+    else:
+        lines.append(method)
+    lines.append("")
 
     lines.append("## Search Results")
     if not search_results:
         lines.append("No relevant documents found.")
     else:
         for item in search_results:
-            lines.append(
-                f"- **{item['doc_name']}** | score={item['score']} | matched_terms={', '.join(item['matched_terms'])}"
-            )
+            method = item.get("retrieval_method", "unknown")
+
+            if method == "semantic":
+                lines.append(
+                    f"- **{item['doc_name']}** | similarity={item['score']}"
+                )
+            else:
+                matched = ", ".join(item["matched_terms"]) if item.get("matched_terms") else "N/A"
+                lines.append(
+                    f"- **{item['doc_name']}** | score={item['score']} | matched_terms={matched}"
+                )
     lines.append("")
 
     lines.append("## Document Summaries")
