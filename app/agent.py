@@ -70,9 +70,15 @@ def run_agent(query: str, docs: dict, plan: list[str], search_method: str = "vec
                 logger.info("[Summarize] %s", detail)
 
             elif step == "compare":
-                if len(state.search_results) >= 2:
-                    doc1_name = state.search_results[0].doc_name
-                    doc2_name = state.search_results[1].doc_name
+                unique_docs = []
+                for item in state.search_results:
+                    if item.doc_name not in unique_docs:
+                        unique_docs.append(item.doc_name)
+                    if len(unique_docs) == 2:
+                        break
+
+                if len(unique_docs) >= 2:
+                    doc1_name, doc2_name = unique_docs[0], unique_docs[1]
 
                     comp = compare_docs(docs[doc1_name], docs[doc2_name])
                     state.comparison = Comparison(**comp)
@@ -83,7 +89,7 @@ def run_agent(query: str, docs: dict, plan: list[str], search_method: str = "vec
                     )
                     logger.info("[Compare] %s", detail)
                 else:
-                    detail = "Skipped comparison because fewer than 2 relevant documents were found."
+                    detail = "Skipped comparison because fewer than 2 distinct relevant documents were found."
                     state.execution_trace.append(
                         TraceEntry(step="compare", status="skipped", detail=detail)
                     )
@@ -97,6 +103,8 @@ def run_agent(query: str, docs: dict, plan: list[str], search_method: str = "vec
                         "score_type": r.score_type,
                         "retrieval_method": r.retrieval_method,
                         "matched_terms": r.matched_terms,
+                        "chunk_id": r.chunk_id,
+                        "chunk_text": r.chunk_text,
                     }
                     for r in state.search_results
                 ]

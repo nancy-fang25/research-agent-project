@@ -1,7 +1,7 @@
 import re
 import logging
 from collections import Counter
-from retriever import DocumentRetriever
+from retriever import ChunkRetriever
 
 logger = logging.getLogger(__name__)
 
@@ -92,26 +92,29 @@ def search_docs_keyword(query: str, docs: dict) -> list[dict]:
     return results
 
 
-def search_docs_vector(query: str, docs: dict, top_k: int = 3) -> list[dict]:
+def search_docs_vector(query: str, docs: dict, top_k: int = 5) -> list[dict]:
     """
-    Semantic search using sentence-transformers + vector similarity.
+    Chunk-level semantic search using sentence-transformers.
 
     Returns:
-        list of dicts, same output shape as keyword search
+        list of dicts, each representing a retrieved chunk
     """
     if top_k <= 0:
         return []
-    
-    retriever = DocumentRetriever()
+
+    retriever = ChunkRetriever()
     retriever.build_index(docs)
     results = retriever.search(query, top_k=top_k)
 
     return [
         {
             "doc_name": r.doc_name,
+            "chunk_id": r.chunk_id,
+            "chunk_text": r.chunk_text,
             "score": round(r.score, 4),
-            "score_type": "cosine_similarity",
-            "retrieval_method": "semantic",
+            "score_type": r.score_type,
+            "retrieval_method": r.retrieval_method,
+            "matched_terms": [],
         }
         for r in results
     ]
@@ -199,8 +202,10 @@ def generate_report(
     lines.append("")
     lines.append("## Retrieval Method")
     method = search_results[0].get("retrieval_method", "unknown") if search_results else "N/A"
-    if method == "semantic":
-        lines.append("semantic (embedding-based retrieval)")
+    if method == "semantic_chunk":
+        lines.append("semantic_chunk (chunk-level embedding retrieval)")
+    elif method == "semantic":
+        lines.append("semantic (document-level embedding retrieval)")
     elif method == "keyword":
         lines.append("keyword (term-frequency baseline)")
     else:
@@ -214,7 +219,17 @@ def generate_report(
         for item in search_results:
             method = item.get("retrieval_method", "unknown")
 
-            if method == "semantic":
+            if method == "semantic_chunk":
+                lines.append(
+                    f"- **{item['doc_name']}** | chunk={item.get('chunk_id', 'N/A')} | similarity={item['score']}"
+                )
+                chunk_text = item.get("chunk_text", "")
+                if chunk_text:
+                    preview = chunk_text[:200].strip()
+                    if len(chunk_text) > 200:
+                        preview += "..."
+                    lines.append(f"  - **Evidence:** {preview}")
+            elif method == "semantic":
                 lines.append(
                     f"- **{item['doc_name']}** | similarity={item['score']}"
                 )
@@ -231,7 +246,7 @@ def generate_report(
     added_docs = set()
     for item in search_results:
         doc_name = item["doc_name"]
-        if doc_name in summaries:
+        if doc_name in summaries and doc_name not in added_docs:
             summary = summaries[doc_name]
             lines.append(f"### {doc_name}")
             lines.append(f"- **Title:** {summary['title']}")

@@ -9,6 +9,8 @@ class SearchResult:
     score_type: str
     retrieval_method: str
     matched_terms: List[str] = field(default_factory=list)
+    chunk_id: Optional[int] = None
+    chunk_text: Optional[str] = None
 
 
 @dataclass
