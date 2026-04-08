@@ -97,27 +97,40 @@ def search_docs_vector(query: str, docs: dict, top_k: int = 5) -> list[dict]:
     Chunk-level semantic search using sentence-transformers.
 
     Returns:
-        list of dicts, each representing a retrieved chunk
+        list of dicts, each representing the top chunk for a distinct document
     """
     if top_k <= 0:
         return []
 
     retriever = ChunkRetriever()
     retriever.build_index(docs)
-    results = retriever.search(query, top_k=top_k)
 
-    return [
-        {
-            "doc_name": r.doc_name,
-            "chunk_id": r.chunk_id,
-            "chunk_text": r.chunk_text,
-            "score": round(r.score, 4),
-            "score_type": r.score_type,
-            "retrieval_method": r.retrieval_method,
-            "matched_terms": [],
-        }
-        for r in results
-    ]
+    raw_results = retriever.search(query, top_k=max(top_k * 3, top_k))
+
+    deduped_results = []
+    seen_docs = set()
+
+    for r in raw_results:
+        if r.doc_name in seen_docs:
+            continue
+
+        deduped_results.append(
+            {
+                "doc_name": r.doc_name,
+                "chunk_id": r.chunk_id,
+                "chunk_text": r.chunk_text,
+                "score": round(r.score, 4),
+                "score_type": r.score_type,
+                "retrieval_method": r.retrieval_method,
+                "matched_terms": [],
+            }
+        )
+        seen_docs.add(r.doc_name)
+
+        if len(deduped_results) == top_k:
+            break
+
+    return deduped_results
 
 
 def search_docs(query: str, docs: dict, method: str = "vector", top_k: int = 3) -> list[dict]:

@@ -56,9 +56,8 @@ def parse_args():
     parser.add_argument(
         "--search-method",
         type=str,
-        default="vector",
         choices=["vector", "keyword"],
-        help="Retrieval method: vector (default) or keyword",
+        help="Retrieval method: vector or keyword",
     )    
     return parser.parse_args()
 
@@ -76,6 +75,12 @@ def main():
         query = args.query
     else:
         query = input("Enter your query: ").strip()
+
+    if args.search_method:
+        search_method = args.search_method
+    else:
+        method_input = input("Enter search method (vector/keyword) [vector]: ").strip().lower()
+        search_method = method_input if method_input in {"vector", "keyword"} else "vector"
 
     logger.info("[Main] Loading documents from %s", data_folder)
 
@@ -95,7 +100,7 @@ def main():
         query=query,
         docs=docs,
         plan=planner_output.plan,
-        search_method=args.search_method,
+        search_method=search_method,
     )
 
     result = state.to_dict()
