@@ -1,5 +1,6 @@
 import re
 import logging
+from pathlib import Path
 from collections import Counter
 from retriever import ChunkRetriever
 
@@ -94,7 +95,7 @@ def search_docs_keyword(query: str, docs: dict) -> list[dict]:
 
 def search_docs_vector(query: str, docs: dict, top_k: int = 5) -> list[dict]:
     """
-    Chunk-level semantic search using sentence-transformers.
+    Chunk-level semantic search using a persisted vector index when available.
 
     Returns:
         list of dicts, each representing the top chunk for a distinct document
@@ -103,7 +104,17 @@ def search_docs_vector(query: str, docs: dict, top_k: int = 5) -> list[dict]:
         return []
 
     retriever = ChunkRetriever()
-    retriever.build_index(docs)
+    index_dir = Path("vector_store")
+
+    try:
+        if (index_dir / "embeddings.npy").exists() and (index_dir / "chunks.json").exists():
+            retriever.load_index(str(index_dir))
+        else:
+            logger.warning("[Search] Persisted vector index not found. Rebuilding index from docs.")
+            retriever.build_index(docs)
+    except Exception:
+        logger.exception("[Search] Failed to load persisted vector index. Rebuilding from docs.")
+        retriever.build_index(docs)
 
     raw_results = retriever.search(query, top_k=max(top_k * 3, top_k))
 

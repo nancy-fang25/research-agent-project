@@ -1,12 +1,24 @@
-# Python cache
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
 
-# Environment variables
-.env
+# Env
+venv/
+rag_env/
 
-# Output files (generated results)
-outputs/
-
-# macOS
+# System
 .DS_Store
+
+# IDE
+.vscode/
+
+# Vector store
+vector_store/embeddings.npy
+
+# Outputs
+outputs/*
+!outputs/evaluation_report.md
+!outputs/evaluation_results.json
+
+# Logs
+*.log

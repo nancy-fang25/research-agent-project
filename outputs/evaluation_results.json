@@ -1,0 +1,705 @@
+{
+  "summary": {
+    "total_queries": 7,
+    "keyword_top1_hits": 7,
+    "keyword_topk_hits": 7,
+    "vector_top1_hits": 7,
+    "vector_topk_hits": 7,
+    "keyword_top1_rate": 1.0,
+    "keyword_topk_rate": 1.0,
+    "vector_top1_rate": 1.0,
+    "vector_topk_rate": 1.0,
+    "keyword_errors": 0,
+    "vector_errors": 0,
+    "avg_keyword_rank": 1.0,
+    "avg_vector_rank": 1.0
+  },
+  "records": [
+    {
+      "query": "Compare methods that improve language model performance using retrieval versus additional task-specific training.",
+      "expected_docs": [
+        "paper1.txt",
+        "paper2.txt"
+      ],
+      "keyword": {
+        "method": "keyword",
+        "retrieved_docs": [
+          "paper1.txt",
+          "paper2.txt"
+        ],
+        "top1_hit": true,
+        "topk_hit": true,
+        "correct_rank": 1,
+        "raw_results": [
+          {
+            "doc_name": "paper1.txt",
+            "score": 9,
+            "score_type": "term_frequency",
+            "retrieval_method": "keyword",
+            "matched_terms": [
+              "additional",
+              "improve",
+              "language",
+              "model",
+              "retrieval",
+              "using"
+            ]
+          },
+          {
+            "doc_name": "paper2.txt",
+            "score": 6,
+            "score_type": "term_frequency",
+            "retrieval_method": "keyword",
+            "matched_terms": [
+              "language",
+              "model",
+              "performance",
+              "task-specific"
+            ]
+          }
+        ],
+        "result_preview": [
+          "paper1.txt | score=9 | matched_terms=additional, improve, language, model, retrieval, using",
+          "paper2.txt | score=6 | matched_terms=language, model, performance, task-specific"
+        ],
+        "error": null
+      },
+      "vector": {
+        "method": "vector",
+        "retrieved_docs": [
+          "paper2.txt",
+          "paper1.txt",
+          "paper3.txt"
+        ],
+        "top1_hit": true,
+        "topk_hit": true,
+        "correct_rank": 1,
+        "raw_results": [
+          {
+            "doc_name": "paper2.txt",
+            "chunk_id": 0,
+            "chunk_text": "Title: Fine-Tuning Language Models Abstract: This paper explores fine-tuning techniques for adapting large language models to domain-specific tasks. Method: A pretrained model is further trained on task-specific data. Techniques such as parameter-efficient fine-tuning (PEFT) reduce computational cost. Results: Fine-tuned models outperform base models on specialized tasks such as medical QA and legal document analysis. Conclusion: Fine-tuning is a powerful method for improving model performance in specific domains.",
+            "score": 0.6382,
+            "score_type": "cosine_similarity",
+            "retrieval_method": "semantic_chunk",
+            "matched_terms": []
+          },
+          {
+            "doc_name": "paper1.txt",
+            "chunk_id": 0,
+            "chunk_text": "Title: Retrieval-Augmented Generation Abstract: This paper introduces Retrieval-Augmented Generation (RAG), a method that combines retrieval systems with large language models to improve factual accuracy. Method: The system first retrieves relevant documents from a knowledge base using vector similarity search. The retrieved content is then used as additional context for the language model during generation. Results: RAG improves factual correctness and reduces hallucination compared to standard language models. Conclusion: Retrieval augmentation is an effective approach for improving reliability in generative AI",
+            "score": 0.543,
+            "score_type": "cosine_similarity",
+            "retrieval_method": "semantic_chunk",
+            "matched_terms": []
+          },
+          {
+            "doc_name": "paper3.txt",
+            "chunk_id": 0,
+            "chunk_text": "Title: Autonomous AI Agents Abstract: This paper discusses the design of autonomous AI agents that can perform multi-step reasoning and tool usage. Method: Agents are equipped with planning modules, memory systems, and tool-calling capabilities. They can decompose tasks and execute them step by step. Results: Agent-based systems perform better than single-pass models in complex reasoning tasks. Conclusion: AI agents represent a promising direction for building intelligent systems that can handle real-world workflows.",
+            "score": 0.1178,
+            "score_type": "cosine_similarity",
+            "retrieval_method": "semantic_chunk",
+            "matched_terms": []
+          }
+        ],
+        "result_preview": [
+          "paper2.txt | chunk=0 | similarity=0.6382",
+          "paper1.txt | chunk=0 | similarity=0.543",
+          "paper3.txt | chunk=0 | similarity=0.1178"
+        ],
+        "error": null
+      }
+    },
+    {
+      "query": "Which approach involves autonomous systems that break problems into steps and call outside functions?",
+      "expected_docs": [
+        "paper3.txt"
+      ],
+      "keyword": {
+        "method": "keyword",
+        "retrieved_docs": [
+          "paper3.txt",
+          "paper1.txt"
+        ],
+        "top1_hit": true,
+        "topk_hit": true,
+        "correct_rank": 1,
+        "raw_results": [
+          {
+            "doc_name": "paper3.txt",
+            "score": 5,
+            "score_type": "term_frequency",
+            "retrieval_method": "keyword",
+            "matched_terms": [
+              "autonomous",
+              "systems"
+            ]
+          },
+          {
+            "doc_name": "paper1.txt",
+            "score": 3,
+            "score_type": "term_frequency",
+            "retrieval_method": "keyword",
+            "matched_terms": [
+              "approach",
+              "systems"
+            ]
+          }
+        ],
+        "result_preview": [
+          "paper3.txt | score=5 | matched_terms=autonomous, systems",
+          "paper1.txt | score=3 | matched_terms=approach, systems"
+        ],
+        "error": null
+      },
+      "vector": {
+        "method": "vector",
+        "retrieved_docs": [
+          "paper3.txt",
+          "paper1.txt",
+          "paper2.txt"
+        ],
+        "top1_hit": true,
+        "topk_hit": true,
+        "correct_rank": 1,
+        "raw_results": [
+          {
+            "doc_name": "paper3.txt",
+            "chunk_id": 0,
+            "chunk_text": "Title: Autonomous AI Agents Abstract: This paper discusses the design of autonomous AI agents that can perform multi-step reasoning and tool usage. Method: Agents are equipped with planning modules, memory systems, and tool-calling capabilities. They can decompose tasks and execute them step by step. Results: Agent-based systems perform better than single-pass models in complex reasoning tasks. Conclusion: AI agents represent a promising direction for building intelligent systems that can handle real-world workflows.",
+            "score": 0.4461,
+            "score_type": "cosine_similarity",
+            "retrieval_method": "semantic_chunk",
+            "matched_terms": []
+          },
+          {
+            "doc_name": "paper1.txt",
+            "chunk_id": 1,
+            "chunk_text": "reduces hallucination compared to standard language models. Conclusion: Retrieval augmentation is an effective approach for improving reliability in generative AI systems.",
+            "score": 0.1378,
+            "score_type": "cosine_similarity",
+            "retrieval_method": "semantic_chunk",
+            "matched_terms": []
+          },
+          {
+            "doc_name": "paper2.txt",
+            "chunk_id": 0,
+            "chunk_text": "Title: Fine-Tuning Language Models Abstract: This paper explores fine-tuning techniques for adapting large language models to domain-specific tasks. Method: A pretrained model is further trained on task-specific data. Techniques such as parameter-efficient fine-tuning (PEFT) reduce computational cost. Results: Fine-tuned models outperform base models on specialized tasks such as medical QA and legal document analysis. Conclusion: Fine-tuning is a powerful method for improving model performance in specific domains.",
+            "score": 0.1091,
+            "score_type": "cosine_similarity",
+            "retrieval_method": "semantic_chunk",
+            "matched_terms": []
+          }
+        ],
+        "result_preview": [
+          "paper3.txt | chunk=0 | similarity=0.4461",
+          "paper1.txt | chunk=1 | similarity=0.1378",
+          "paper2.txt | chunk=0 | similarity=0.1091"
+        ],
+        "error": null
+      }
+    },
+    {
+      "query": "Which method enhances generation by leveraging information retrieved at runtime rather than relying only on model parameters?",
+      "expected_docs": [
+        "paper1.txt"
+      ],
+      "keyword": {
+        "method": "keyword",
+        "retrieved_docs": [
+          "paper1.txt",
+          "paper2.txt",
+          "paper3.txt"
+        ],
+        "top1_hit": true,
+        "topk_hit": true,
+        "correct_rank": 1,
+        "raw_results": [
+          {
+            "doc_name": "paper1.txt",
+            "score": 7,
+            "score_type": "term_frequency",
+            "retrieval_method": "keyword",
+            "matched_terms": [
+              "generation",
+              "method",
+              "model",
+              "retrieved"
+            ]
+          },
+          {
+            "doc_name": "paper2.txt",
+            "score": 4,
+            "score_type": "term_frequency",
+            "retrieval_method": "keyword",
+            "matched_terms": [
+              "method",
+              "model"
+            ]
+          },
+          {
+            "doc_name": "paper3.txt",
+            "score": 2,
+            "score_type": "term_frequency",
+            "retrieval_method": "keyword",
+            "matched_terms": [
+              "method",
+              "than"
+            ]
+          }
+        ],
+        "result_preview": [
+          "paper1.txt | score=7 | matched_terms=generation, method, model, retrieved",
+          "paper2.txt | score=4 | matched_terms=method, model",
+          "paper3.txt | score=2 | matched_terms=method, than"
+        ],
+        "error": null
+      },
+      "vector": {
+        "method": "vector",
+        "retrieved_docs": [
+          "paper1.txt",
+          "paper2.txt",
+          "paper3.txt"
+        ],
+        "top1_hit": true,
+        "topk_hit": true,
+        "correct_rank": 1,
+        "raw_results": [
+          {
+            "doc_name": "paper1.txt",
+            "chunk_id": 0,
+            "chunk_text": "Title: Retrieval-Augmented Generation Abstract: This paper introduces Retrieval-Augmented Generation (RAG), a method that combines retrieval systems with large language models to improve factual accuracy. Method: The system first retrieves relevant documents from a knowledge base using vector similarity search. The retrieved content is then used as additional context for the language model during generation. Results: RAG improves factual correctness and reduces hallucination compared to standard language models. Conclusion: Retrieval augmentation is an effective approach for improving reliability in generative AI",
+            "score": 0.4314,
+            "score_type": "cosine_similarity",
+            "retrieval_method": "semantic_chunk",
+            "matched_terms": []
+          },
+          {
+            "doc_name": "paper2.txt",
+            "chunk_id": 0,
+            "chunk_text": "Title: Fine-Tuning Language Models Abstract: This paper explores fine-tuning techniques for adapting large language models to domain-specific tasks. Method: A pretrained model is further trained on task-specific data. Techniques such as parameter-efficient fine-tuning (PEFT) reduce computational cost. Results: Fine-tuned models outperform base models on specialized tasks such as medical QA and legal document analysis. Conclusion: Fine-tuning is a powerful method for improving model performance in specific domains.",
+            "score": 0.3108,
+            "score_type": "cosine_similarity",
+            "retrieval_method": "semantic_chunk",
+            "matched_terms": []
+          },
+          {
+            "doc_name": "paper3.txt",
+            "chunk_id": 0,
+            "chunk_text": "Title: Autonomous AI Agents Abstract: This paper discusses the design of autonomous AI agents that can perform multi-step reasoning and tool usage. Method: Agents are equipped with planning modules, memory systems, and tool-calling capabilities. They can decompose tasks and execute them step by step. Results: Agent-based systems perform better than single-pass models in complex reasoning tasks. Conclusion: AI agents represent a promising direction for building intelligent systems that can handle real-world workflows.",
+            "score": 0.2428,
+            "score_type": "cosine_similarity",
+            "retrieval_method": "semantic_chunk",
+            "matched_terms": []
+          }
+        ],
+        "result_preview": [
+          "paper1.txt | chunk=0 | similarity=0.4314",
+          "paper2.txt | chunk=0 | similarity=0.3108",
+          "paper3.txt | chunk=0 | similarity=0.2428"
+        ],
+        "error": null
+      }
+    },
+    {
+      "query": "Which approach specializes a pretrained model for a narrow domain by continuing training on targeted data?",
+      "expected_docs": [
+        "paper2.txt"
+      ],
+      "keyword": {
+        "method": "keyword",
+        "retrieved_docs": [
+          "paper2.txt",
+          "paper1.txt"
+        ],
+        "top1_hit": true,
+        "topk_hit": true,
+        "correct_rank": 1,
+        "raw_results": [
+          {
+            "doc_name": "paper2.txt",
+            "score": 4,
+            "score_type": "term_frequency",
+            "retrieval_method": "keyword",
+            "matched_terms": [
+              "data",
+              "model",
+              "pretrained"
+            ]
+          },
+          {
+            "doc_name": "paper1.txt",
+            "score": 2,
+            "score_type": "term_frequency",
+            "retrieval_method": "keyword",
+            "matched_terms": [
+              "approach",
+              "model"
+            ]
+          }
+        ],
+        "result_preview": [
+          "paper2.txt | score=4 | matched_terms=data, model, pretrained",
+          "paper1.txt | score=2 | matched_terms=approach, model"
+        ],
+        "error": null
+      },
+      "vector": {
+        "method": "vector",
+        "retrieved_docs": [
+          "paper2.txt",
+          "paper1.txt",
+          "paper3.txt"
+        ],
+        "top1_hit": true,
+        "topk_hit": true,
+        "correct_rank": 1,
+        "raw_results": [
+          {
+            "doc_name": "paper2.txt",
+            "chunk_id": 0,
+            "chunk_text": "Title: Fine-Tuning Language Models Abstract: This paper explores fine-tuning techniques for adapting large language models to domain-specific tasks. Method: A pretrained model is further trained on task-specific data. Techniques such as parameter-efficient fine-tuning (PEFT) reduce computational cost. Results: Fine-tuned models outperform base models on specialized tasks such as medical QA and legal document analysis. Conclusion: Fine-tuning is a powerful method for improving model performance in specific domains.",
+            "score": 0.4575,
+            "score_type": "cosine_similarity",
+            "retrieval_method": "semantic_chunk",
+            "matched_terms": []
+          },
+          {
+            "doc_name": "paper1.txt",
+            "chunk_id": 1,
+            "chunk_text": "reduces hallucination compared to standard language models. Conclusion: Retrieval augmentation is an effective approach for improving reliability in generative AI systems.",
+            "score": 0.281,
+            "score_type": "cosine_similarity",
+            "retrieval_method": "semantic_chunk",
+            "matched_terms": []
+          },
+          {
+            "doc_name": "paper3.txt",
+            "chunk_id": 0,
+            "chunk_text": "Title: Autonomous AI Agents Abstract: This paper discusses the design of autonomous AI agents that can perform multi-step reasoning and tool usage. Method: Agents are equipped with planning modules, memory systems, and tool-calling capabilities. They can decompose tasks and execute them step by step. Results: Agent-based systems perform better than single-pass models in complex reasoning tasks. Conclusion: AI agents represent a promising direction for building intelligent systems that can handle real-world workflows.",
+            "score": 0.1768,
+            "score_type": "cosine_similarity",
+            "retrieval_method": "semantic_chunk",
+            "matched_terms": []
+          }
+        ],
+        "result_preview": [
+          "paper2.txt | chunk=0 | similarity=0.4575",
+          "paper1.txt | chunk=1 | similarity=0.281",
+          "paper3.txt | chunk=0 | similarity=0.1768"
+        ],
+        "error": null
+      }
+    },
+    {
+      "query": "Which paper is about autonomous workflows and sequential decision-making rather than search augmentation or model adaptation?",
+      "expected_docs": [
+        "paper3.txt"
+      ],
+      "keyword": {
+        "method": "keyword",
+        "retrieved_docs": [
+          "paper3.txt",
+          "paper1.txt",
+          "paper2.txt"
+        ],
+        "top1_hit": true,
+        "topk_hit": true,
+        "correct_rank": 1,
+        "raw_results": [
+          {
+            "doc_name": "paper3.txt",
+            "score": 5,
+            "score_type": "term_frequency",
+            "retrieval_method": "keyword",
+            "matched_terms": [
+              "autonomous",
+              "paper",
+              "than",
+              "workflows"
+            ]
+          },
+          {
+            "doc_name": "paper1.txt",
+            "score": 4,
+            "score_type": "term_frequency",
+            "retrieval_method": "keyword",
+            "matched_terms": [
+              "augmentation",
+              "model",
+              "paper",
+              "search"
+            ]
+          },
+          {
+            "doc_name": "paper2.txt",
+            "score": 3,
+            "score_type": "term_frequency",
+            "retrieval_method": "keyword",
+            "matched_terms": [
+              "model",
+              "paper"
+            ]
+          }
+        ],
+        "result_preview": [
+          "paper3.txt | score=5 | matched_terms=autonomous, paper, than, workflows",
+          "paper1.txt | score=4 | matched_terms=augmentation, model, paper, search",
+          "paper2.txt | score=3 | matched_terms=model, paper"
+        ],
+        "error": null
+      },
+      "vector": {
+        "method": "vector",
+        "retrieved_docs": [
+          "paper3.txt",
+          "paper1.txt",
+          "paper2.txt"
+        ],
+        "top1_hit": true,
+        "topk_hit": true,
+        "correct_rank": 1,
+        "raw_results": [
+          {
+            "doc_name": "paper3.txt",
+            "chunk_id": 0,
+            "chunk_text": "Title: Autonomous AI Agents Abstract: This paper discusses the design of autonomous AI agents that can perform multi-step reasoning and tool usage. Method: Agents are equipped with planning modules, memory systems, and tool-calling capabilities. They can decompose tasks and execute them step by step. Results: Agent-based systems perform better than single-pass models in complex reasoning tasks. Conclusion: AI agents represent a promising direction for building intelligent systems that can handle real-world workflows.",
+            "score": 0.4051,
+            "score_type": "cosine_similarity",
+            "retrieval_method": "semantic_chunk",
+            "matched_terms": []
+          },
+          {
+            "doc_name": "paper1.txt",
+            "chunk_id": 1,
+            "chunk_text": "reduces hallucination compared to standard language models. Conclusion: Retrieval augmentation is an effective approach for improving reliability in generative AI systems.",
+            "score": 0.3463,
+            "score_type": "cosine_similarity",
+            "retrieval_method": "semantic_chunk",
+            "matched_terms": []
+          },
+          {
+            "doc_name": "paper2.txt",
+            "chunk_id": 0,
+            "chunk_text": "Title: Fine-Tuning Language Models Abstract: This paper explores fine-tuning techniques for adapting large language models to domain-specific tasks. Method: A pretrained model is further trained on task-specific data. Techniques such as parameter-efficient fine-tuning (PEFT) reduce computational cost. Results: Fine-tuned models outperform base models on specialized tasks such as medical QA and legal document analysis. Conclusion: Fine-tuning is a powerful method for improving model performance in specific domains.",
+            "score": 0.3449,
+            "score_type": "cosine_similarity",
+            "retrieval_method": "semantic_chunk",
+            "matched_terms": []
+          }
+        ],
+        "result_preview": [
+          "paper3.txt | chunk=0 | similarity=0.4051",
+          "paper1.txt | chunk=1 | similarity=0.3463",
+          "paper2.txt | chunk=0 | similarity=0.3449"
+        ],
+        "error": null
+      }
+    },
+    {
+      "query": "Which method improves trustworthiness in generated answers by grounding them in external information?",
+      "expected_docs": [
+        "paper1.txt"
+      ],
+      "keyword": {
+        "method": "keyword",
+        "retrieved_docs": [
+          "paper1.txt",
+          "paper3.txt",
+          "paper2.txt"
+        ],
+        "top1_hit": true,
+        "topk_hit": true,
+        "correct_rank": 1,
+        "raw_results": [
+          {
+            "doc_name": "paper1.txt",
+            "score": 3,
+            "score_type": "term_frequency",
+            "retrieval_method": "keyword",
+            "matched_terms": [
+              "improves",
+              "method"
+            ]
+          },
+          {
+            "doc_name": "paper3.txt",
+            "score": 2,
+            "score_type": "term_frequency",
+            "retrieval_method": "keyword",
+            "matched_terms": [
+              "method",
+              "them"
+            ]
+          },
+          {
+            "doc_name": "paper2.txt",
+            "score": 2,
+            "score_type": "term_frequency",
+            "retrieval_method": "keyword",
+            "matched_terms": [
+              "method"
+            ]
+          }
+        ],
+        "result_preview": [
+          "paper1.txt | score=3 | matched_terms=improves, method",
+          "paper3.txt | score=2 | matched_terms=method, them",
+          "paper2.txt | score=2 | matched_terms=method"
+        ],
+        "error": null
+      },
+      "vector": {
+        "method": "vector",
+        "retrieved_docs": [
+          "paper1.txt",
+          "paper2.txt",
+          "paper3.txt"
+        ],
+        "top1_hit": true,
+        "topk_hit": true,
+        "correct_rank": 1,
+        "raw_results": [
+          {
+            "doc_name": "paper1.txt",
+            "chunk_id": 0,
+            "chunk_text": "Title: Retrieval-Augmented Generation Abstract: This paper introduces Retrieval-Augmented Generation (RAG), a method that combines retrieval systems with large language models to improve factual accuracy. Method: The system first retrieves relevant documents from a knowledge base using vector similarity search. The retrieved content is then used as additional context for the language model during generation. Results: RAG improves factual correctness and reduces hallucination compared to standard language models. Conclusion: Retrieval augmentation is an effective approach for improving reliability in generative AI",
+            "score": 0.3256,
+            "score_type": "cosine_similarity",
+            "retrieval_method": "semantic_chunk",
+            "matched_terms": []
+          },
+          {
+            "doc_name": "paper2.txt",
+            "chunk_id": 0,
+            "chunk_text": "Title: Fine-Tuning Language Models Abstract: This paper explores fine-tuning techniques for adapting large language models to domain-specific tasks. Method: A pretrained model is further trained on task-specific data. Techniques such as parameter-efficient fine-tuning (PEFT) reduce computational cost. Results: Fine-tuned models outperform base models on specialized tasks such as medical QA and legal document analysis. Conclusion: Fine-tuning is a powerful method for improving model performance in specific domains.",
+            "score": 0.2253,
+            "score_type": "cosine_similarity",
+            "retrieval_method": "semantic_chunk",
+            "matched_terms": []
+          },
+          {
+            "doc_name": "paper3.txt",
+            "chunk_id": 0,
+            "chunk_text": "Title: Autonomous AI Agents Abstract: This paper discusses the design of autonomous AI agents that can perform multi-step reasoning and tool usage. Method: Agents are equipped with planning modules, memory systems, and tool-calling capabilities. They can decompose tasks and execute them step by step. Results: Agent-based systems perform better than single-pass models in complex reasoning tasks. Conclusion: AI agents represent a promising direction for building intelligent systems that can handle real-world workflows.",
+            "score": 0.133,
+            "score_type": "cosine_similarity",
+            "retrieval_method": "semantic_chunk",
+            "matched_terms": []
+          }
+        ],
+        "result_preview": [
+          "paper1.txt | chunk=0 | similarity=0.3256",
+          "paper2.txt | chunk=0 | similarity=0.2253",
+          "paper3.txt | chunk=0 | similarity=0.133"
+        ],
+        "error": null
+      }
+    },
+    {
+      "query": "Which paper focuses on adapting models for specialized fields like medicine or law?",
+      "expected_docs": [
+        "paper2.txt"
+      ],
+      "keyword": {
+        "method": "keyword",
+        "retrieved_docs": [
+          "paper2.txt",
+          "paper1.txt",
+          "paper3.txt"
+        ],
+        "top1_hit": true,
+        "topk_hit": true,
+        "correct_rank": 1,
+        "raw_results": [
+          {
+            "doc_name": "paper2.txt",
+            "score": 7,
+            "score_type": "term_frequency",
+            "retrieval_method": "keyword",
+            "matched_terms": [
+              "adapting",
+              "models",
+              "paper",
+              "specialized"
+            ]
+          },
+          {
+            "doc_name": "paper1.txt",
+            "score": 3,
+            "score_type": "term_frequency",
+            "retrieval_method": "keyword",
+            "matched_terms": [
+              "models",
+              "paper"
+            ]
+          },
+          {
+            "doc_name": "paper3.txt",
+            "score": 2,
+            "score_type": "term_frequency",
+            "retrieval_method": "keyword",
+            "matched_terms": [
+              "models",
+              "paper"
+            ]
+          }
+        ],
+        "result_preview": [
+          "paper2.txt | score=7 | matched_terms=adapting, models, paper, specialized",
+          "paper1.txt | score=3 | matched_terms=models, paper",
+          "paper3.txt | score=2 | matched_terms=models, paper"
+        ],
+        "error": null
+      },
+      "vector": {
+        "method": "vector",
+        "retrieved_docs": [
+          "paper2.txt",
+          "paper1.txt",
+          "paper3.txt"
+        ],
+        "top1_hit": true,
+        "topk_hit": true,
+        "correct_rank": 1,
+        "raw_results": [
+          {
+            "doc_name": "paper2.txt",
+            "chunk_id": 0,
+            "chunk_text": "Title: Fine-Tuning Language Models Abstract: This paper explores fine-tuning techniques for adapting large language models to domain-specific tasks. Method: A pretrained model is further trained on task-specific data. Techniques such as parameter-efficient fine-tuning (PEFT) reduce computational cost. Results: Fine-tuned models outperform base models on specialized tasks such as medical QA and legal document analysis. Conclusion: Fine-tuning is a powerful method for improving model performance in specific domains.",
+            "score": 0.4233,
+            "score_type": "cosine_similarity",
+            "retrieval_method": "semantic_chunk",
+            "matched_terms": []
+          },
+          {
+            "doc_name": "paper1.txt",
+            "chunk_id": 1,
+            "chunk_text": "reduces hallucination compared to standard language models. Conclusion: Retrieval augmentation is an effective approach for improving reliability in generative AI systems.",
+            "score": 0.1308,
+            "score_type": "cosine_similarity",
+            "retrieval_method": "semantic_chunk",
+            "matched_terms": []
+          },
+          {
+            "doc_name": "paper3.txt",
+            "chunk_id": 0,
+            "chunk_text": "Title: Autonomous AI Agents Abstract: This paper discusses the design of autonomous AI agents that can perform multi-step reasoning and tool usage. Method: Agents are equipped with planning modules, memory systems, and tool-calling capabilities. They can decompose tasks and execute them step by step. Results: Agent-based systems perform better than single-pass models in complex reasoning tasks. Conclusion: AI agents represent a promising direction for building intelligent systems that can handle real-world workflows.",
+            "score": 0.0954,
+            "score_type": "cosine_similarity",
+            "retrieval_method": "semantic_chunk",
+            "matched_terms": []
+          }
+        ],
+        "result_preview": [
+          "paper2.txt | chunk=0 | similarity=0.4233",
+          "paper1.txt | chunk=1 | similarity=0.1308",
+          "paper3.txt | chunk=0 | similarity=0.0954"
+        ],
+        "error": null
+      }
+    }
+  ]
+}

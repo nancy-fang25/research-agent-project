@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import json
+from pathlib import Path
 from dataclasses import dataclass
 from typing import Dict, List
 
@@ -139,3 +141,45 @@ class ChunkRetriever:
             )
 
         return results
+    
+    def save_index(self, output_dir: str) -> None:
+        """
+        Save chunk embeddings and chunk metadata to disk.
+        """
+        if self.chunk_embeddings is None or not self.chunks:
+            raise ValueError("No index data available to save. Please run build_index() first.")
+
+        output_path = Path(output_dir)
+        output_path.mkdir(parents=True, exist_ok=True)
+
+        np.save(output_path / "embeddings.npy", self.chunk_embeddings)
+
+        with open(output_path / "chunks.json", "w", encoding="utf-8") as f:
+            json.dump(self.chunks, f, indent=2, ensure_ascii=False)
+
+
+    def load_index(self, input_dir: str) -> None:
+        """
+        Load chunk embeddings and chunk metadata from disk.
+        """
+        input_path = Path(input_dir)
+
+        embeddings_path = input_path / "embeddings.npy"
+        chunks_path = input_path / "chunks.json"
+
+        if not embeddings_path.exists():
+            raise FileNotFoundError(f"Embeddings file not found: {embeddings_path}")
+
+        if not chunks_path.exists():
+            raise FileNotFoundError(f"Chunk metadata file not found: {chunks_path}")
+
+        self.chunk_embeddings = np.load(embeddings_path).astype("float32")
+
+        with open(chunks_path, "r", encoding="utf-8") as f:
+            self.chunks = json.load(f)
+
+        if self.chunk_embeddings.shape[0] != len(self.chunks):
+            raise ValueError(
+                f"Mismatch between embeddings ({self.chunk_embeddings.shape[0]}) "
+                f"and chunks ({len(self.chunks)})"
+            )
