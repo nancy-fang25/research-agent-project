@@ -1,0 +1,30 @@
+[
+  {
+    "query": "Compare methods that improve language model performance using retrieval versus additional task-specific training.",
+    "expected_docs": ["paper1.txt", "paper2.txt"]
+  },
+  {
+    "query": "Which approach involves autonomous systems that break problems into steps and call outside functions?",
+    "expected_docs": ["paper3.txt"]
+  },
+  {
+    "query": "Which method enhances generation by leveraging information retrieved at runtime rather than relying only on model parameters?",
+    "expected_docs": ["paper1.txt"]
+  },
+  {
+    "query": "Which approach specializes a pretrained model for a narrow domain by continuing training on targeted data?",
+    "expected_docs": ["paper2.txt"]
+  },
+  {
+    "query": "Which paper is about autonomous workflows and sequential decision-making rather than search augmentation or model adaptation?",
+    "expected_docs": ["paper3.txt"]
+  },
+  {
+    "query": "Which method improves trustworthiness in generated answers by grounding them in external information?",
+    "expected_docs": ["paper1.txt"]
+  },
+  {
+    "query": "Which paper focuses on adapting models for specialized fields like medicine or law?",
+    "expected_docs": ["paper2.txt"]
+  }
+]
