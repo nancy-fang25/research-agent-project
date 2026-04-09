@@ -1,7 +1,7 @@
 import json
 import requests
 
-from schemas import PlannerOutput
+from app.schemas import PlannerOutput
 
 
 OLLAMA_URL = "http://localhost:11434/api/generate"

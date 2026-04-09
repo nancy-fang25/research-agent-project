@@ -2,7 +2,7 @@ import re
 import logging
 from pathlib import Path
 from collections import Counter
-from retriever import ChunkRetriever
+from app.retriever import ChunkRetriever
 
 logger = logging.getLogger(__name__)
 

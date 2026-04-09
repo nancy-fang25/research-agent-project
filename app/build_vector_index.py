@@ -1,7 +1,7 @@
 from pathlib import Path
 
-from utils import load_sample_docs
-from retriever import ChunkRetriever
+from app.utils import load_sample_docs
+from app.retriever import ChunkRetriever
 
 
 def main() -> None:

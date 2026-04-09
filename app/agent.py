@@ -1,7 +1,7 @@
 import logging
 
-from tools import search_docs, summarize_docs, compare_docs, generate_report
-from schemas import AgentState, SearchResult, Summary, Comparison, ErrorLog, TraceEntry
+from app.tools import search_docs, summarize_docs, compare_docs, generate_report
+from app.schemas import AgentState, SearchResult, Summary, Comparison, ErrorLog, TraceEntry
 
 
 logger = logging.getLogger(__name__)

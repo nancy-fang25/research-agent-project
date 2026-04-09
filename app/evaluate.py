@@ -2,8 +2,8 @@ import json
 from pathlib import Path
 from typing import Any
 
-from utils import load_sample_docs
-from tools import search_docs
+from app.utils import load_sample_docs
+from app.tools import search_docs
 
 
 def load_eval_queries(path: str) -> list[dict[str, Any]]:

@@ -3,9 +3,9 @@ import argparse
 import logging
 from pathlib import Path
 
-from utils import load_sample_docs
-from planner import create_plan
-from agent import run_agent
+from app.utils import load_sample_docs
+from app.planner import create_plan
+from app.agent import run_agent
 
 
 def setup_logging(log_level: str) -> None:
