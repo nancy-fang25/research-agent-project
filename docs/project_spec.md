@@ -2,7 +2,6 @@
 
 > **A structured AI system for multi-step document analysis with planning, retrieval, reasoning, and report generation.**
 
----
 
 ## Overview
 
@@ -10,7 +9,6 @@ This project implements a **multi-step AI research agent** that can analyze tech
 
 Unlike standard LLM systems, this agent follows a **plan → execute → synthesize** workflow and exposes the pipeline through a **FastAPI service**.
 
----
 
 ## Problem Statement
 
@@ -27,7 +25,6 @@ This project addresses these limitations by:
 - Executing **multi-step workflows**
 - Returning **structured outputs with evidence**
 
----
 
 ## Use Cases
 
@@ -44,7 +41,6 @@ The system is designed for:
 - "Compare retrieval and fine-tuning methods"
 - "Generate a technical report from these documents"
 
----
 
 ## System Architecture
 
@@ -82,7 +78,6 @@ Step 4: Report Generation
 Final Output + Execution Trace
 ```
 
----
 
 ## Inputs and Outputs
 
@@ -91,8 +86,6 @@ Final Output + Execution Trace
 - Technical documents (TXT / Markdown / PDF)
 - User query
 - Retrieval method (`vector` or `keyword`)
-
----
 
 ### Outputs
 
@@ -105,7 +98,6 @@ The system returns:
 - Final structured report (Markdown)  
 - Execution trace and error logs  
 
----
 
 ## Core Capabilities
 
@@ -115,7 +107,6 @@ The system returns:
 - Structured output  
 - Error handling  
 
----
 
 ## Retrieval (RAG)
 
@@ -124,7 +115,6 @@ The system returns:
 - Evidence-backed responses
 - Reduced hallucination
 
----
 
 ## Evaluation
 
@@ -132,7 +122,6 @@ The system returns:
 - Keyword vs semantic comparison
 - Benchmark queries (`eval_queries.json`)
 
----
 
 ## Persistence
 - Precomputed embeddings
@@ -141,7 +130,6 @@ The system returns:
   - `chunks.json`
 - Separates indexing and query phases
 
----
 
 ## API Service
 - FastAPI-based backend
@@ -149,7 +137,6 @@ The system returns:
 - `/health` for monitoring
 - Auto-generated docs at `/docs`
 
----
 
 ## Design Highlights
 - Modular architecture (planner / agent / tools / retrieval)
@@ -157,7 +144,6 @@ The system returns:
 - Execution trace for transparency
 - Structured JSON + Markdown outputs
 
----
 
 ## Limitations
 - Small-scale dataset
@@ -165,7 +151,6 @@ The system returns:
 - No long-term memory
 - Not production deployed
 
----
 
 ## Future Improvements
 - Hybrid search (BM25 + embeddings)
@@ -174,7 +159,6 @@ The system returns:
 - Multi-agent orchestration
 - UI / frontend integration
 
----
 
 ## Summary
 
@@ -190,7 +174,6 @@ This project demonstrates a **complete AI system pipeline**:
 It bridges the gap between:
 > **LLM demos → production-style AI systems with structured pipelines and evaluation**
 
----
 
 ## Key Takeaway
 
