@@ -1,241 +1,168 @@
-# Multi-step Research Agent for Technical Document Analysis
+# Multi-step Research Agent
 
-A multi-step AI agent for technical document analysis with tool calling, structured outputs, and local LLM-based planning via Ollama.
+> **A structured AI system for multi-step document analysis with planning, retrieval, reasoning, and report generation.**
 
----
 
 ## Overview
 
-This project implements a modular AI agent that processes technical documents through a sequence of steps including retrieval, summarization, comparison, and report generation.
+This project implements a **multi-step research agent** that can analyze technical documents, perform semantic retrieval (RAG), and generate structured reports.
 
-Unlike a static pipeline, the system dynamically generates an execution plan from a natural language query using a local large language model (LLM), enabling flexible and adaptive workflows.
+Unlike standard LLM systems, it follows a **plan → execute → synthesize** workflow and exposes the entire pipeline via a **FastAPI service**.
 
----
 
 ## Key Features
 
-### Modular Tool Pipeline
-Implements a structured workflow:
+- Semantic Retrieval (RAG) — chunk-level embedding search
+- Task Planning — LLM-based plan generation
+- Multi-step Reasoning — tool-driven execution pipeline
+- Evaluation System — keyword vs semantic comparison
+- Persistent Vector Store — precomputed embeddings
+- API Service — FastAPI-based interface
+- Structured Outputs — JSON + Markdown report
+
+
+## System Flow
+
 ```text
-search → summarize → compare → report
+User Query
+    ↓
+FastAPI (/query)
+    ↓
+Planner (LLM)
+    ↓
+Agent Execution
+    ↓
+Tools
+  ├── search_docs
+  ├── summarize_docs
+  ├── compare_docs
+  └── generate_report
+    ↓
+Final Report + Execution Trace
 ```
 
-Each step is encapsulated as a tool, enabling clear separation of concerns.
-
----
-
-### Plan-Driven Agent Architecture
-
-Transforms a fixed pipeline into a dynamic agent:
-
-- Generates execution plans based on user queries
-- Executes steps sequentially according to the plan
-- Supports flexible workflows depending on task intent
-
----
-
-### LLM-based Planning (Local via Ollama)
-- Uses a local LLM (e.g. llama3) to generate plans
-- Understands query intent (e.g. comparison vs summarization)
-- Includes fallback rule-based planner for robustness
-
----
-
-### Structured State Management
-
-Uses dataclass-based schemas to manage:
-- search results
-- summaries
-- comparisons
-- errors
-- execution trace
-
-Ensures consistent and debuggable outputs.
-
----
-
-### Execution Trace & Logging
-- Tracks each step of execution
-- Records success, failure, or skipped steps
-- Provides transparency and debugging capability
-
-Example trace:
-```json
-{
-  "step": "compare",
-  "status": "success",
-  "detail": "Compared top 2 documents"
-}
-```
-
----
-
-### CLI and Interactive Input
-
-The agent supports both CLI-based input and interactive input.
-
-#### Option 1: CLI input (recommended)
-
-```bash
-python app/main.py --query "Compare retrieval and fine-tuning methods"
-```
-
-#### Option 2: Interactive input
-```bash
-python app/main.py
-```
-Then enter your query when prompted:
-```text
-Enter your query: Compare retrieval and fine-tuning methods
-```
-This allows the agent to be used both in scripted workflows and interactive scenarios.
-
----
-
-You can also specify optional parameters:
-```bash
---model llama3
---log-level DEBUG
-```
-
----
 
 ## Project Structure
+
 ```text
 research-agent/
 ├── app/
-│   ├── agent.py        # execution engine
-│   ├── main.py         # CLI entry point
-│   ├── planner.py      # LLM + fallback planner
-│   ├── schemas.py      # structured state
-│   ├── tools.py        # tool functions
-│   └── utils.py        # data loading
+│   ├── api.py
+│   ├── agent.py
+│   ├── planner.py
+│   ├── tools.py
+│   ├── retriever.py
+│   └── ...
 ├── data/
-│   └── sample_docs/    # demo documents
-├── demo/               # example outputs
-├── tests/
-├── requirements.txt
-└── README.md
+│   ├── sample_docs/
+│   └── eval_queries.json
+├── demo/
+│   ├── report_example.md
+│   └── result_example.json
+├── outputs/
+│   ├── evaluation_report.md
+│   └── evaluation_results.json
+├── vector_store/   (ignored)
+├── PROJECT_SPEC.md
+├── README.md
+└── requirements.txt
 ```
 
----
 
-## System Workflow
+## Quick Start
 
-### High-level flow
-```text
-User Query
-   ↓
-Planner (LLM or fallback)
-   ↓
-Execution Plan
-   ↓
-Agent Execution
-   ↓
-Report + JSON Output
-```
-
----
-
-### Internal agent execution
-```text
-search → summarize → compare → report
-```
-
----
-
-## Installation
+**1. Install dependencies**
 ```bash
 pip install -r requirements.txt
 ```
 
----
-
-## Requirements
-- Python 3.10+
-- Ollama installed locally
-- A local model such as llama3
-
----
-
-## Usage
-
-### Basic usage (CLI)
-
+**2. Run CLI version**
 ```bash
-python app/main.py --query "Compare retrieval and fine-tuning methods in these technical documents"
+python -m app.main
 ```
 
----
-
-### Interactive mode
+**3. Run API service**
 ```bash
-python app/main.py
-```
-Then enter your query when prompted.
-
----
-
-### Debug mode
-```bash
-python app/main.py --query "Summarize these documents" --log-level DEBUG
+uvicorn app.api:app --reload
 ```
 
----
+Open the API docs at: `http://127.0.0.1:8000/docs`
 
-## Output
 
-The system generates:
+## API Usage
 
-1. Markdown Report
-```text
-outputs/report.md
+**Endpoint:** `POST /query`
+
+**Request Example**
+```json
+{
+  "query": "Compare retrieval and fine-tuning methods",
+  "search_method": "vector"
+}
 ```
-Human-readable structured analysis.
 
----
-
-2. JSON Result
-```text
-outputs/result.json
+**Response (simplified)**
+```json
+{
+  "planner_plan": ["search", "summarize", "compare", "report"],
+  "result": {
+    "search_results": [...],
+    "summaries": {...},
+    "comparison": "...",
+    "report": "..."
+  }
+}
 ```
-Contains:
-- query
-- plan
-- search_results
-- summaries
-- comparison
-- report
-- errors
-- execution_trace
-- planner_rationale
 
----
 
-## Example Capabilities
-- Compare technical approaches (e.g. RAG vs fine-tuning)
-- Summarize multiple documents
-- Generate structured reports
-- Track execution for debugging and analysis
+## Evaluation
 
----
+The system includes a lightweight evaluation framework:
+- Top-1 / Top-k retrieval accuracy
+- Keyword vs semantic retrieval comparison
+- Benchmark queries (`eval_queries.json`)
 
-## Design Principles
-- Separation of concerns: tools, planner, and agent are decoupled
-- Robustness: fallback planner ensures system always runs
-- Observability: execution trace and logging for transparency
-- Local-first: uses local LLM (Ollama) instead of external APIs
-- Extensibility: easy to add new tools or steps
+Detailed results are available in `outputs/evaluation_report.md`.
 
----
 
-## Notes
-- Sample documents are synthetic and safe for public use
-- Outputs are generated dynamically and not tracked in Git
-- Planner behavior depends on the local LLM model
+## Demo Output
 
----
+**Example Report:** `demo/report_example.md`  
+**Example JSON Output:** `demo/result_example.json`
 
-## Resume-ready Summary
 
-Built a multi-step AI agent for technical document analysis with local LLM-based planning, tool calling, structured state management, execution tracing, and markdown/JSON report generation.
+## Tech Stack
+
+- Python
+- Sentence Transformers (`all-MiniLM-L6-v2`)
+- NumPy
+- FastAPI
+- Uvicorn
+
+
+## Limitations
+
+- Small-scale dataset
+- No ANN index (brute-force similarity)
+- No long-term memory
+- Not production deployed
+
+
+## Future Work
+
+- Hybrid search (BM25 + embeddings)
+- Reranker (cross-encoder)
+- FAISS / vector database
+- Multi-agent architecture
+- UI (Streamlit / Web)
+
+
+## System Design
+
+See: `PROJECT_SPEC.md`
+
+
+## Key Takeaway
+
+> **This is not a chatbot.**  
+> It is a structured, tool-driven, multi-step AI system with planning, retrieval, and evaluation.
