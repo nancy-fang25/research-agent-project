@@ -3,6 +3,11 @@
 > **A structured AI system for multi-step document analysis with planning, retrieval, reasoning, and report generation.**
 
 
+## Purpose
+
+This document describes the system design, architecture, and key decisions behind the research agent.
+
+
 ## Overview
 
 This project implements a **multi-step AI research agent** that can analyze technical documents, perform semantic retrieval, and generate structured reports.
@@ -45,23 +50,27 @@ The system is designed for:
 ## System Architecture
 
 ### High-Level Flow
+
 ```text
-User
-  ↓
+User Query
+    ↓
 FastAPI (/query)
-  ↓
-Planner
-  ↓
-Agent
-  ↓
+    ↓
+Planner (LLM)
+    ↓
+Agent Execution
+    ↓
 Tools
   ├── search_docs
   ├── summarize_docs
   ├── compare_docs
   └── generate_report
+    ↓
+Final Report + Execution Trace
 ```
 
 ### Execution Pipeline
+
 ```text
 Query
   ↓
@@ -79,12 +88,20 @@ Final Output + Execution Trace
 ```
 
 
+## Design Decisions
+
+- Why chunk-level retrieval instead of document-level
+- Why semantic search over keyword search
+- Why separate indexing and query phases
+- Trade-offs between simplicity and scalability
+
+
 ## Inputs and Outputs
 
 ### Inputs
 
 - Technical documents (TXT / Markdown / PDF)
-- User query
+- User query (provided via CLI or API)
 - Retrieval method (`vector` or `keyword`)
 
 ### Outputs
@@ -124,6 +141,7 @@ The system returns:
 
 
 ## Persistence
+
 - Precomputed embeddings
 - Stored as:
   - `embeddings.npy`    
@@ -132,6 +150,7 @@ The system returns:
 
 
 ## API Service
+
 - FastAPI-based backend
 - `/query` endpoint for full pipeline
 - `/health` for monitoring
@@ -139,6 +158,7 @@ The system returns:
 
 
 ## Design Highlights
+
 - Modular architecture (planner / agent / tools / retrieval)
 - Clear separation of indexing vs querying
 - Execution trace for transparency
@@ -146,6 +166,7 @@ The system returns:
 
 
 ## Limitations
+
 - Small-scale dataset
 - No ANN index (brute-force similarity)
 - No long-term memory
@@ -153,6 +174,7 @@ The system returns:
 
 
 ## Future Improvements
+
 - Hybrid search (BM25 + embeddings)
 - Reranking (cross-encoder)
 - FAISS / vector database

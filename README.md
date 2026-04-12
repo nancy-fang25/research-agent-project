@@ -21,24 +21,18 @@ Unlike standard LLM systems, it follows a **plan → execute → synthesize** wo
 - Structured Outputs — JSON + Markdown report
 
 
-## System Flow
+## System Flow (Simplified)
 
 ```text
-User Query
-    ↓
-FastAPI (/query)
-    ↓
-Planner (LLM)
-    ↓
-Agent Execution
-    ↓
-Tools
-  ├── search_docs
-  ├── summarize_docs
-  ├── compare_docs
-  └── generate_report
-    ↓
-Final Report + Execution Trace
+Query
+  ↓
+Planning
+  ↓
+Retrieval 
+  ↓
+Reasoning
+  ↓
+Report
 ```
 
 
@@ -47,12 +41,16 @@ Final Report + Execution Trace
 ```text
 research-agent/
 ├── app/
-│   ├── api.py
 │   ├── agent.py
+│   ├── api.py
+│   ├── build_vector_index.py
+│   ├── evaluate.py
+│   ├── main.py
 │   ├── planner.py
-│   ├── tools.py
 │   ├── retriever.py
-│   └── ...
+│   ├── schemas.py
+│   ├── tools.py
+│   └── utils.py
 ├── data/
 │   ├── sample_docs/
 │   └── eval_queries.json
@@ -62,7 +60,8 @@ research-agent/
 ├── outputs/
 │   ├── evaluation_report.md
 │   └── evaluation_results.json
-├── vector_store/   (ignored)
+├── vector_store/ 
+│   └── chunks.json
 ├── PROJECT_SPEC.md
 ├── README.md
 └── requirements.txt
@@ -80,6 +79,14 @@ pip install -r requirements.txt
 ```bash
 python -m app.main
 ```
+Supports both command-line arguments and interactive query input.
+
+Example:
+```bash
+python -m app.main --query "Compare retrieval and fine-tuning methods" --search-method vector
+```
+- query: input question
+- search-method: vector or keyword
 
 **3. Run API service**
 ```bash
