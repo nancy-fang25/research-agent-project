@@ -85,8 +85,8 @@ Example:
 ```bash
 python -m app.main --query "Compare retrieval and fine-tuning methods" --search-method vector
 ```
-- query: input question
-- search-method: vector or keyword
+- `--query`: input question
+- `--search-method`: `vector` or `keyword`
 
 **3. Run API service**
 ```bash
@@ -99,6 +99,13 @@ Open the API docs at: `http://127.0.0.1:8000/docs`
 ## API Usage
 
 **Endpoint:** `POST /query`
+
+Runs the full agent pipeline and returns:
+- planner output
+- retrieval results
+- document summaries
+- comparison results
+- final report with evidence
 
 **Request Example**
 ```json
@@ -133,6 +140,8 @@ Detailed results are available in `outputs/evaluation_report.md`.
 
 
 ## Demo Output
+
+The system produces a structured report together with evidence-backed retrieval results.
 
 **Example Report:** `demo/report_example.md`  
 **Example JSON Output:** `demo/result_example.json`
